@@ -15,9 +15,6 @@ def is_palindrome(word: str) -> bool:
     for number in range(length_of_word-1, (length_of_word-1)//2, -1):
         second_half.append(word[number])
 
-    print(first_half)
-    print(second_half)
-
     if first_half == second_half:
         return True
     
