@@ -119,38 +119,57 @@ def check_win(grid: list[list[str]]) -> bool:
     return False
 
 
-def check_diagonal_win(grid: list[list[str]]):
+def check_diagonal_win_from_left_side(grid: list[list[str]]) -> bool:
     chained_piece_count = 1
     for row_idx, row in enumerate(grid):
-        if row_idx == 0:
-            continue
         for square_idx, square in enumerate(row):
             if square == ".":
                 continue
-            print(row)
+#            print(row)
             if square == grid[row_idx-1][square_idx-1]:
-                print("----CHAINED PIECE----")
+#                print("----CHAINED PIECE----")
                 chained_piece_count += 1
             else:
                 chained_piece_count = 1
-
-            print(f"piece = {square}, idx = {square_idx}, chained pieces = {chained_piece_count}\n")
+#            print(f"piece = {square}, idx = {square_idx}, chained pieces = {chained_piece_count}\n")
             if chained_piece_count == 4:
                 return True
     return False
 
-    
+def check_diagonal_win_from_right_side(grid: list[list[str]]) -> bool:
+    chained_piece_count = 1
+    for row_idx, row in enumerate(grid):
+        for square_idx, square in enumerate(row):
+            if square == ".":
+                continue
+            if row[square_idx] == row[-1]:
+                continue
+#            print(row)
+            if square == grid[row_idx-1][square_idx+1]:
+#                print("----CHAINED PIECE----")
+                chained_piece_count += 1
+            else:
+                chained_piece_count = 1
+#            print(f"piece = {square}, idx = {square_idx}, chained pieces = {chained_piece_count}\n")
+            if chained_piece_count == 4:
+                return True
+    return False
 
-print(check_diagonal_win([[".",".",".",".",".","."],
-                          [".",".",".",".",".","."], 
-                          [".",".",".",".",".","."], 
-                          [".",".",".",".",".","O"],
-                          [".",".",".",".","O","."],
-                          [".",".",".","O",".","."],
-                          [".",".","O",".",".","."]]))
+def play_game():
+    os.system("clear")
+    draw_grid(grid)
+    while True:
+        for player_number, piece in enumerate(PIECES):
+            print(f"Player {player_number}'s turn: ({piece})")
+            player_turn(grid, piece)
+            os.system("clear")
+            draw_grid(grid)
+            is_won_1 = check_win(grid)
+            is_won_2 = check_diagonal_win_from_left_side(grid)
+            is_won_3 = check_diagonal_win_from_right_side(grid)
+            print(is_won_1, is_won_2, is_won_3)
 
-
-# def play_game():
+#def play_game():
 #    os.system("clear")
 #    draw_grid(grid)
 #    while True:
@@ -159,8 +178,12 @@ print(check_diagonal_win([[".",".",".",".",".","."],
 #            player_turn(grid, piece)
 #            os.system("clear")
 #            draw_grid(grid)
+#            is_won_1 = check_win(grid)
+#            is_won_2 = check_diagonal_win_from_left_side(grid)
+#            is_won_3 = check_diagonal_win_from_right_side(grid)
+#            print(is_won_1, is_won_2, is_won_3)
 
 
-# if __name__ == "__main__":
-#    play_game()
+if __name__ == "__main__":
+    play_game()
 
