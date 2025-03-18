@@ -1,14 +1,15 @@
 import pytest
-from main import check_win, check_diagonal_win_from_left_side, check_diagonal_win_from_right_side
+from main import check_win, check_diagonal_win
 
 def test_win_horizontally():
-    assert check_win([["X","X","X","X",".","."],
-                      [".",".",".",".",".","."], 
-                      [".",".",".",".",".","."], 
+    assert check_win([["X","X","X","X","",""],
+                      ["","","","","",""], 
+                      [".",".","","","",""], 
                       [".",".",".",".",".","."],
                       [".",".",".",".",".","."],
                       [".",".",".",".",".","."],
                       [".",".",".",".",".","."]]) == True 
+
 
 def test_lose_horizontally():
     assert check_win([["X","X",".","X",".","."],
@@ -19,6 +20,7 @@ def test_lose_horizontally():
                       [".",".",".",".",".","."],
                       [".",".",".",".",".","."]]) == False 
 
+
 def test_win_vertically():
     assert check_win([["X",".",".",".",".","."],
                       ["X",".",".",".",".","."], 
@@ -27,6 +29,7 @@ def test_win_vertically():
                       [".",".",".",".",".","."],
                       [".",".",".",".",".","."],
                       [".",".",".",".",".","."]]) == True 
+
 
 def test_lose_vertically():
     assert check_win([["X",".",".",".",".","."],
@@ -37,14 +40,49 @@ def test_lose_vertically():
                       [".",".",".",".",".","."],
                       [".",".",".",".",".","."]]) == False 
 
-def test_win_diagonally_from_left_side():
-    assert check_diagonal_win_from_left_side([["O",".",".",".",".","."],
-                                              [".","O",".",".",".","."], 
-                                              [".",".","O",".",".","."], 
+
+def test_win_diagonally():
+    assert diagonal_win([
+        ["O",".",".",".",".","."],
+        [".","O",".",".",".","."], 
+        [".",".","O",".",".","."], 
+        [".",".",".","O",".","."],
+        [".",".",".",".",".","."],
+        [".",".",".",".",".","."],
+        [".",".",".",".",".","."]]) == True
+
+
+def test_win_diagonally_from_left_side_sandbox():
+    assert check_diagonal_win_from_left_side([[".",".",".",".",".","."],
+                                              [".",".",".",".",".","."], 
+                                              [".",".",".",".",".","."], 
+                                              [".",".","O",".",".","."],
                                               [".",".",".","O",".","."],
-                                              [".",".",".",".",".","."],
-                                              [".",".",".",".",".","."],
-                                              [".",".",".",".",".","."]]) == True
+                                              [".",".",".",".","O","."],
+                                              [".",".",".",".","X","O"]]) == True
+
+
+
+#def test_win_diagonally_from_left_side_real_game_example():
+#    assert check_diagonal_win_from_left_side([[".",".",".",".",".","."],
+#                                              [".",".",".",".",".","."], 
+#                                              [".",".",".",".",".","."], 
+#                                              [".",".","X","O",".","."],
+#                                              [".",".","O","X",".","."],
+#                                              ["X","O","O","O","X","."],
+#                                              ["X","X","X","O","O","X"]]) == True
+
+
+#def test_win_diagonally_from_left_side_real_game_example():
+#    assert check_diagonal_win_from_left_side([
+#        [".",".",".",".",".","."],
+#        [".",".",".",".",".","."],
+#        [".",".",".",".",".","."],
+#        [".",".","X",".",".","."],
+#        [".",".","X","X",".","."],
+#        [".","O","O","O","X","."],
+#        ["O","X","O","X","O","X"]]) == True
+
 
 def test_lose_diagonally_from_left_side():
     assert check_diagonal_win_from_left_side([["O",".",".",".",".","."],
@@ -55,6 +93,7 @@ def test_lose_diagonally_from_left_side():
                                               [".",".",".",".",".","."],
                                               [".",".",".",".",".","."]]) == False
 
+
 def test_win_diagonally_from_right_side():
     assert check_diagonal_win_from_right_side([[".",".",".",".",".","."],
                                                [".",".",".",".",".","."], 
@@ -63,6 +102,42 @@ def test_win_diagonally_from_right_side():
                                                [".",".",".",".","O","."],
                                                [".",".",".","O",".","."],
                                                [".",".","O",".",".","."]]) == True
+
+def test_win_diagonally_from_right_side_X_blocking_check():
+    assert check_diagonal_win_from_right_side([[".",".",".",".",".","."],
+                                               [".",".",".",".",".","."], 
+                                               [".",".",".",".",".","."], 
+                                               [".",".",".",".",".","O"],
+                                               [".",".",".",".","O","."],
+                                               [".",".",".","O",".","."],
+                                               [".","X","O",".",".","."]]) == True
+
+def test_win_diagonally_from_right_side_real_game_example():
+    assert check_diagonal_win_from_right_side([[".",".",".",".",".","."],
+                                               [".",".",".",".",".","."], 
+                                               [".",".",".",".",".","."], 
+                                               [".",".",".","X",".","."],
+                                               [".",".","X","X",".","."],
+                                               [".","X","O","O","O","."],
+                                               ["X","O","X","O","X","O"]]) == True
+
+def test_win_diagonally_from_right_side_attempting_to_block_checking_X():
+    assert check_diagonal_win_from_right_side([[".",".",".",".",".","."],
+                                               [".",".",".",".",".","."], 
+                                               [".",".",".",".",".","."], 
+                                               [".",".","O","X","O","."],
+                                               [".",".","X","X","X","."],
+                                               [".","X","O","O","O","."],
+                                               ["X","O","X","O","X","O"]]) == True
+
+def test_win_diagonally_from_right_side_full_board():
+    assert check_diagonal_win_from_right_side([["O","O","X","O","X","X"],
+                                               ["X","X","X","O","O","X"], 
+                                               ["O","X","O","X","O","X"], 
+                                               ["X","O","O","X","O","O"],
+                                               ["X","O","X","X","X","O"],
+                                               ["O","X","O","O","O","X"],
+                                               ["X","O","X","O","X","O"]]) == True
 
 def test_lose_diagonally_from_right_side():
     assert check_diagonal_win_from_right_side([[".",".",".",".",".","."],
